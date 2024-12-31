@@ -1,2 +1,2 @@
 # bingo
-bingo card
+20241231 bingo card for aten
