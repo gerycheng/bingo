@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ffffff">
+	<meta http-equiv="cache-control" content="max-age=0" />
+	<meta http-equiv="cache-control" content="no-cache" />
+	<meta http-equiv="expires" content="0" />
+	<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+	<meta http-equiv="pragma" content="no-cache" />
+    <link rel="manifest" href="manifest.json">
+	<link rel="icon" type="image/x-icon" href="bingo-icon.png">
+	<link rel="apple-touch-icon" href="bingo-icon.png">
+    <title i18nId="ATEN Bingo Card">Bingo Card Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .bingo-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px;
+        }
+        .bingo-card {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            border: 2px solid #000;
+            padding: 10px;
+            position: relative;
+        }
+        .remove-button {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            width: 20px;
+            height: 20px;
+        }
+        .remove-button:hover {
+            background-color: darkred;
+        }
+        .card-header {
+            grid-column: span 5;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .cell {
+            border: 1px solid #000;
+            padding: 6px;
+            text-align: center;
+            font-size: 45px;
+            background-color: #f9f9f9;
+        }
+        .matched {
+            background-color: #90ee90;
+        }
+        .duplicate {
+            background-color: #ffcccb;
+        }
+        .line-count {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background-color: #fff;
+            padding: 5px;
+            border: 1px solid #000;
+            font-size: 14px;
+        }
+        .history {
+            margin-top: 20px;
+            text-align: left;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .input-section {
+            margin-top: 10px;
+        }
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #eee;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            z-index: 1000;
+        }
+        .content {
+            margin-top: 70px; 
+        }
+		.input-section button, .input-section input {
+			font-size: 30px;
+		}
+		 .input-section input {
+			max-width: 4rem;
+		}
+		.message-box {
+			margin-top: 20px;
+		}
+    </style>
+</head>
+<body>
+    <h1>Bingo Card Generator</h1>
+	<div class="fixed-header">
+		<div class="input-section">
+			<button onclick="addRandomBingoCard()">+Random</button>
+			<button onclick="addCustomBingoCard()">+Custom</button>
+		</div>
+		<div class="input-section">
+			<!-- <button onclick="matchHistoryNumber()">Recheck Bingo Card</button> -->
+			<input type="number" id="input-number" placeholder="1-70" min="1" max="70" size="2">
+			<button onclick="markNumber()">Check</button>
+		</div>
+	</div>
+	<div class="content">
+		<div class="message-box" id="message-box"></div>
+		<div class="history" id="history"></div>
+		<div class="bingo-container" id="bingo-container"></div>
+	</div>
+	<script src="umd.js"></script>
+    <script>
+        // Open IndexedDB
+        const dbPromise = idb.openDB('bingo-pwa-db', 1, {
+            upgrade(db) {
+                if (!db.objectStoreNames.contains('matchHistory')) {
+                    db.createObjectStore('matchHistory', { keyPath: 'id', autoIncrement: true });
+                }
+                if (!db.objectStoreNames.contains('allCardNumbers')) {
+                    db.createObjectStore('allCardNumbers', { keyPath: 'id', autoIncrement: true });
+                }
+            },
+        });
+
+        function saveMatchHistory() {
+            dbPromise.then((db) => {
+                const tx = db.transaction('matchHistory', 'readwrite');
+                const store = tx.objectStore('matchHistory');
+                store.put({ id: 1, data: matchHistory });
+                return tx.complete;
+            });
+        }
+
+        function loadMatchHistory() {
+            dbPromise.then((db) => {
+                const tx = db.transaction('matchHistory', 'readonly');
+                const store = tx.objectStore('matchHistory');
+                return store.get(1);
+            }).then((record) => {
+                if (record && record.data) {
+                    matchHistory = record.data;
+                    updateHistory();
+                    matchHistoryNumber();
+                }
+            });
+        }
+
+        function saveAllCardNumbers() {
+			updateAllCardNumbers();
+            dbPromise.then((db) => {
+                const tx = db.transaction('allCardNumbers', 'readwrite');
+                const store = tx.objectStore('allCardNumbers');
+                store.put({ id: 1, data: allCardNumbers });
+                return tx.complete;
+            });
+        }
+
+        function loadAllCardNumbers() {
+            dbPromise.then((db) => {
+                const tx = db.transaction('allCardNumbers', 'readonly');
+                const store = tx.objectStore('allCardNumbers');
+                return store.get(1);
+            }).then((record) => {
+                if (record && record.data) {
+                    allCardNumbers = record.data;
+					allCardNumbers.forEach(cardNumber => {
+						cardCount++;
+						const card = createBingoCard(cardCount, cardNumber);
+						document.getElementById('bingo-container').appendChild(card);
+					});
+                    matchHistoryNumber();
+                }
+            });
+        }
+		
+        let cardCount = 0;
+		let allCardNumbers = [];
+        let matchHistory = [];
+
+        function addRandomBingoCard() {
+            cardCount++;
+            const card = createBingoCard(cardCount, generateUniqueNumbers(25, 1, 70));
+            document.getElementById('bingo-container').appendChild(card);
+			matchHistoryNumber();
+			saveAllCardNumbers();
+        }
+
+        function addCustomBingoCard() {
+            cardCount++;
+            const card = createBingoCard(cardCount);
+            document.getElementById('bingo-container').appendChild(card);
+			matchHistoryNumber();
+			saveAllCardNumbers();
+        }
+
+        function createBingoCard(cardNumber, numbers = []) {
+            const card = document.createElement('div');
+            card.classList.add('bingo-card');
+
+            const removeButton = document.createElement('button');
+            removeButton.classList.add('remove-button');
+            removeButton.textContent = 'X';
+            removeButton.onclick = () => removeCard(card);
+            card.appendChild(removeButton);
+
+            const header = document.createElement('div');
+            header.classList.add('card-header');
+            header.textContent = `Card #${cardNumber}`;
+            card.appendChild(header);
+
+            for (let i = 0; i < 25; i++) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                cell.contentEditable = true;
+                if (numbers[i]) {
+                    cell.textContent = numbers[i];
+                    cell.dataset.number = numbers[i];
+                }
+                cell.addEventListener('input', (event) => {
+                    const value = parseInt(cell.textContent);
+                    if (!isNaN(value) && value >= 1 && value <= 70) {
+                        cell.dataset.number = value;
+                        validateDuplicates(card);
+                    } else {
+                        cell.dataset.number = '';
+                        cell.textContent = ''; // Clear invalid input
+                        validateDuplicates(card);
+                    }
+
+                    // Re-check bingo and lines whenever the card changes
+					saveAllCardNumbers();
+                    checkLines();
+                });
+
+                cell.addEventListener('dblclick', () => {
+                    cell.textContent = '';
+                    cell.dataset.number = '';
+                    cell.classList.remove('matched');
+                    validateDuplicates(card);
+					saveAllCardNumbers();
+                    checkLines();
+                });
+                card.appendChild(cell);
+            }
+
+            const lineCount = document.createElement('div');
+            lineCount.classList.add('line-count');
+            lineCount.textContent = 'Lines: 0';
+            card.appendChild(lineCount);
+
+            return card;
+        }
+
+        function generateUniqueNumbers(count, min, max) {
+            const numbers = new Set();
+            while (numbers.size < count) {
+                numbers.add(Math.floor(Math.random() * (max - min + 1)) + min);
+            }
+            return Array.from(numbers);
+        }
+
+        function removeCard(card) {
+            card.remove();
+			saveAllCardNumbers();
+        }
+
+        function validateDuplicates(card) {
+            const cells = card.querySelectorAll('.cell');
+            const seenNumbers = new Set();
+
+            cells.forEach(cell => cell.classList.remove('duplicate'));
+
+            cells.forEach(cell => {
+                const number = cell.dataset.number;
+                if (number && seenNumbers.has(number)) {
+                    cell.classList.add('duplicate');
+                } else if (number) {
+                    seenNumbers.add(number);
+                }
+            });
+        }
+
+        function markNumber() {
+            const input = document.getElementById('input-number');
+            const number = parseInt(input.value);
+			updateMessage("");
+
+            if (isNaN(number) || number < 1 || number > 70) {
+                alert('Please enter a valid number between 1 and 70.');
+                return;
+            }
+
+			let hisMatched = false;
+			if (matchHistory.includes(number)) {
+				matchHistory = matchHistory.filter(num => num !== number);
+				hisMatched = true;
+			} else {
+				matchHistory.push(number);
+			}
+			saveMatchHistory(); // save update
+			
+            const cells = document.querySelectorAll('.cell');
+			
+			let numMatched = false;
+            cells.forEach(cell => {
+                if (cell.dataset.number == number) {
+					if (hisMatched){
+					// Remove the mark if it's a duplicate
+                        cell.classList.remove('matched');
+					} else {
+						cell.classList.add('matched');
+
+					}
+					numMatched = true;
+                }
+            });
+
+			updateHistory();
+            if (numMatched) {
+                checkLines();
+            }else{
+				updateMessage(`Number ${number} Not Match in Card`)
+			}
+
+            input.value = '';
+        }
+
+		function matchHistoryNumber() {
+			const cells = document.querySelectorAll('.cell');
+			cells.forEach(cell => {
+				if (matchHistory.includes(parseInt(cell.dataset.number))) {
+					cell.classList.add('matched');
+				} else {
+					// Remove the mark if it's a duplicate
+					cell.classList.remove('matched');
+				}
+			});
+			checkLines();
+		}
+
+        function checkLines() {
+            const cards = document.querySelectorAll('.bingo-card');
+            cards.forEach(card => {
+                const cells = card.querySelectorAll('.cell');
+                const grid = Array.from(cells).map(cell => cell.classList.contains('matched'));
+
+                let lines = 0;
+
+                // Check rows
+                for (let i = 0; i < 5; i++) {
+                    if (grid.slice(i * 5, i * 5 + 5).every(matched => matched)) {
+                        lines++;
+                    }
+                }
+
+                // Check columns
+                for (let i = 0; i < 5; i++) {
+                    if ([0, 1, 2, 3, 4].every(j => grid[i + j * 5])) {
+                        lines++;
+                    }
+                }
+
+                // Check diagonals
+                if ([0, 6, 12, 18, 24].every(i => grid[i])) {
+                    lines++;
+                }
+                if ([4, 8, 12, 16, 20].every(i => grid[i])) {
+                    lines++;
+                }
+
+                const lineCount = card.querySelector('.line-count');
+                lineCount.textContent = `Lines: ${lines}`;
+            });
+        }
+		
+		function updateAllCardNumbers() {
+			const bingoCards = document.querySelectorAll('.bingo-card');
+
+			allCardNumbers = Array.from(bingoCards).map(card => {
+			  const cells = card.querySelectorAll('.cell');
+			  return Array.from(cells).map(cell => parseInt(cell.dataset.number, 10));
+			});
+
+		}
+		
+        function updateHistory() {
+            const historyDiv = document.getElementById('history');
+			historyDiv.innerHTML = `<h2>History</h2><p>${matchHistory.join(', ')}</p>`;
+        }
+		
+		function updateMessage(msg) {
+            const historyDiv = document.getElementById('message-box');
+			historyDiv.innerHTML = `<p>${msg}</p>`;
+		}
+
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker
+				.register('service-worker.js')
+				.then(() => console.log('Service Worker Registered'))
+				.catch((err) => console.error("Service Worker Registration Failed:", err));
+		}
+	
+        // Initial Match History Data
+        window.onload = () => {
+			loadAllCardNumbers();
+            loadMatchHistory();
+        };
+	</script>
+</body>
+</html>

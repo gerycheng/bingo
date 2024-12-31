@@ -1,0 +1,26 @@
+{
+  "lang": "en",
+  "dir": "auto",
+  "name": "Awesome fox pictures",
+  "description": "ATEN 2024 Year-end Party",
+  "short_name": "ATEN-BINGO",
+  "author": "gerycheng@aten.com",
+  "name": "ATEN 1D10 Bingo Card App",
+  "start_url": "bingo.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFF",
+  "scope": "/bingo",
+  "icons": [
+	{
+      "src": "bingo-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "serviceworker": {
+    "src": "service-worker.js",
+    "scope": "/bingo",
+    "use_cache": true
+  }
+}
