@@ -15,7 +15,7 @@
     <title i18nId="ATEN Bingo Card">Bingo Card Generator</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             text-align: center;
             margin: 0;
             padding: 0;
@@ -35,6 +35,14 @@
             padding: 10px;
             position: relative;
         }
+		
+		.bingo-card.three-lines {
+			background-color: #ffffe0; /* light yellow */
+		}
+
+		.bingo-card.five-lines {
+			background-color: #d0f0c0; /* light-green */
+		}
         .remove-button {
             position: absolute;
             top: -10px;
@@ -132,6 +140,7 @@
 		<div class="history" id="history"></div>
 		<div class="bingo-container" id="bingo-container"></div>
 	</div>
+
 	<script src="umd.js"></script>
     <script>
         // Open IndexedDB
@@ -240,6 +249,7 @@
                     cell.textContent = numbers[i];
                     cell.dataset.number = numbers[i];
                 }
+				
                 cell.addEventListener('input', (event) => {
                     const value = parseInt(cell.textContent);
                     if (!isNaN(value) && value >= 1 && value <= 70) {
@@ -394,6 +404,17 @@
 
                 const lineCount = card.querySelector('.line-count');
                 lineCount.textContent = `Lines: ${lines}`;
+				
+				// Update card background based on line count
+				if (lines >= 5) {
+					card.classList.add('five-lines');
+					card.classList.remove('three-lines');
+				} else if (lines >= 3) {
+					card.classList.add('three-lines');
+					card.classList.remove('five-lines');
+				} else {
+					card.classList.remove('three-lines', 'five-lines');
+				}
             });
         }
 		
@@ -429,6 +450,13 @@
 			loadAllCardNumbers();
             loadMatchHistory();
         };
+		
+		// trigger Enter key
+		document.getElementById('input-number').addEventListener('keydown', function (event) {
+			if (event.key === 'Enter') {
+				document.querySelector('button[onclick="markNumber()"]').click();
+			}
+		});
 	</script>
 </body>
 </html>
