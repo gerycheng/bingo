@@ -94,7 +94,7 @@
             max-width: 500px;
             margin-left: auto;
             margin-right: auto;
-            padding: 0 20px;
+			padding: 0 20px;
         }
         .input-section {
             margin-top: 10px;
@@ -497,11 +497,11 @@
         function updateHistory() {
             const historyDiv = document.getElementById('history');
 		if (matchHistory.length === 0) {
-			historyDiv.innerHTML = `<h2>History</h2><p>No numbers yet.</p>`;
+			historyDiv.innerHTML = `<h2>Compare</h2><p>No numbers yet.</p>`;
 		} else {
-			historyDiv.innerHTML = `<h2>History</h2><p>${matchHistory.join(', ')}</p>`;
+			historyDiv.innerHTML = `<h2>Compare</h2><p>${matchHistory.join(', ')}</p>`;
 		}
-			historyDiv.innerHTML = `<h2>History</h2><p>${matchHistory.join(', ')}</p>`;
+			historyDiv.innerHTML = `<h2>Compare</h2><p>${matchHistory.join(', ')}</p>`;
         }
 		
 		function updateMessage(msg) {
