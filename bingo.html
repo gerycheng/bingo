@@ -67,9 +67,10 @@
         }
         .cell {
             border: 1px solid #000;
-            padding: 6px;
+            padding: 4px;
             text-align: center;
-            font-size: 45px;
+            font-size: 40px;
+			width: 56px;
             background-color: #f9f9f9;
         }
         .matched {
@@ -96,6 +97,8 @@
         }
         .input-section {
             margin-top: 10px;
+			position: relative;
+			display: inline-block;
         }
         .fixed-header {
             position: fixed;
@@ -109,13 +112,66 @@
             z-index: 1000;
         }
         .content {
-            margin-top: 70px; 
+            margin-top: 80px; 
         }
 		.input-section button, .input-section input {
-			font-size: 30px;
+			font-size: 24px;
 		}
-		 .input-section input {
+		.input-section button {
+			padding: 4px 8px;
+			margin: 4px;
+			cursor: pointer;
+			border-radius: 4px;
+			background-color: #6200ea;
+			color: #ffffff;
+			border: none;
+		}
+		.input-section button:hover {
+			background-color: #3700b3;
+		}
+		$input-number {
 			max-width: 4rem;
+		}
+		.input-section input {
+			padding-left: 40px;
+			border: 2px solid #ccc;
+			border-radius: 5px;
+			width: 100px;
+			outline: none;
+			transition: border-color 0.3s, box-shadow 0.3s;
+		}
+		.input-section input:focus {
+			border-color: #6200ea;
+			box-shadow: 0 0 5px rgba(98, 0, 234, 0.5);
+		}
+		.input-section label {
+			position: absolute;
+			top: 50%;
+			left: 10px;
+			transform: translateY(-50%);
+			font-size: 14px;
+			color: #aaa;
+			pointer-events: none;
+			transition: all 0.2s ease;
+		}
+		.input-section input:focus + label,
+		.input-section input:not(:placeholder-shown) + label {
+			top: -10px;
+			font-size: 12px;
+			color: #6200ea;
+		}
+		.input-section input::placeholder {
+			color: #aaa;
+			font-style: italic;
+		}
+		.input-section .icon {
+			position: absolute;
+			top: 50%;
+			left: 10px;
+			transform: translateY(-50%);
+			color: #6200ea;
+			font-size: 20px;
+			pointer-events: none;
 		}
 		.message-box {
 			margin-top: 20px;
@@ -128,10 +184,13 @@
 		<div class="input-section">
 			<button onclick="addRandomBingoCard()">+Random</button>
 			<button onclick="addCustomBingoCard()">+Custom</button>
+			<button onclick="sortHistory()">Sort</button>
+			<!-- <button onclick="matchHistoryNumber()">Recheck Bingo Card</button> -->
 		</div>
 		<div class="input-section">
-			<!-- <button onclick="matchHistoryNumber()">Recheck Bingo Card</button> -->
+			<span class="icon">🔢</span>
 			<input type="number" id="input-number" placeholder="1-70" min="1" max="70" size="2">
+			<!-- <label for="input-number">Enter Number</label> -->
 			<button onclick="markNumber()">Check</button>
 		</div>
 	</div>
@@ -314,6 +373,12 @@
             });
         }
 
+		function sortHistory() {
+			matchHistory.sort((a, b) => a - b); // sort small to big
+			updateHistory(); 
+			saveMatchHistory();
+		}
+
         function markNumber() {
             const input = document.getElementById('input-number');
             const number = parseInt(input.value);
@@ -430,6 +495,11 @@
 		
         function updateHistory() {
             const historyDiv = document.getElementById('history');
+		if (matchHistory.length === 0) {
+			historyDiv.innerHTML = `<h2>History</h2><p>No numbers yet.</p>`;
+		} else {
+			historyDiv.innerHTML = `<h2>History</h2><p>${matchHistory.join(', ')}</p>`;
+		}
 			historyDiv.innerHTML = `<h2>History</h2><p>${matchHistory.join(', ')}</p>`;
         }
 		
