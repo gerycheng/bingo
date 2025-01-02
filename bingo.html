@@ -12,7 +12,7 @@
     <link rel="manifest" href="manifest.json">
 	<link rel="icon" type="image/x-icon" href="bingo-icon.png">
 	<link rel="apple-touch-icon" href="bingo-icon.png">
-    <title i18nId="ATEN Bingo Card">Bingo Card Generator</title>
+    <title i18nId="ATEN Bingo Card">ATEN Bingo Card Generator</title>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -130,8 +130,8 @@
 		.input-section button:hover {
 			background-color: #3700b3;
 		}
-		$input-number {
-			max-width: 4rem;
+		#input-number {
+			max-width: 8rem;
 		}
 		.input-section input {
 			padding-left: 40px;
@@ -168,7 +168,7 @@
 		.input-section .icon {
 			position: absolute;
 			top: 50%;
-			left: 10px;
+			left: 5px;
 			transform: translateY(-50%);
 			color: #6200ea;
 			font-size: 20px;
@@ -177,7 +177,62 @@
 		.message-box {
 			margin-top: 20px;
 		}
+		.md3-text-field {
+		  position: relative;
+		  margin: 16px;
+		  display: inline-block;
+		}
+
+		.md3-text-field input {
+		  font-size: 24px;
+		  padding: 8px 12px 8px 36px;
+		  border: 2px solid #ccc;
+		  border-radius: 4px;
+		  outline: none;
+		  transition: border-color 0.3s, box-shadow 0.3s;
+		  width: 200px;
+		}
+
+		.md3-text-field input:focus {
+		  border-color: #6200ea;
+		  box-shadow: 0 0 5px rgba(98, 0, 234, 0.5);
+		}
+
+		.md3-text-field label {
+		  position: absolute;
+		  top: 50%;
+		  left: 40px;
+		  transform: translateY(-50%);
+		  font-size: 16px;
+		  color: #aaa;
+		  pointer-events: none;
+		  transition: all 0.2s ease;
+		  background: white;
+		  padding: 0 4px;
+		}
+
+		.md3-text-field input:focus + label,
+		.md3-text-field input:not(:placeholder-shown) + label {
+		  top: -10px;
+		  font-size: 12px;
+		  color: #6200ea;
+		}
+
+		.md3-outline {
+		  position: absolute;
+		  inset: 0;
+		  border: 2px solid #ccc;
+		  border-radius: 4px;
+		  pointer-events: none;
+		  z-index: -1;
+		  transition: border-color 0.3s ease;
+		}
+
+		.md3-text-field input:focus ~ .md3-outline {
+		  border-color: #6200ea;
+		}
     </style>
+	
 </head>
 <body>
     <h1>Bingo Card Generator</h1>
@@ -188,19 +243,15 @@
 			<button onclick="sortHistory()">Sort</button>
 			<!-- <button onclick="matchHistoryNumber()">Recheck Bingo Card</button> -->
 		</div>
-		<div class="input-section">
+		<div class="input-section md3-text-field">
 			<span class="icon">🔢</span>
-			<input type="number" id="input-number" placeholder="1-70" min="1" max="70" size="2">
-			<!-- <label for="input-number">Enter Number</label> -->
+			<input type="number" id="input-number" min="1" max="70" size="2" placeholder=" " required>
+			<label for="input-number">Number 1-70</label>
 			<button onclick="markNumber()">Check</button>
+			<div class="md3-outline"></div>
 		</div>
 	</div>
-	<div class="content">
-		<div class="message-box" id="message-box"></div>
-		<div class="history" id="history"></div>
-		<div class="bingo-container" id="bingo-container"></div>
-	</div>
-
+	<div class="content"></div>
 	<script src="umd.js"></script>
     <script>
         // Open IndexedDB
