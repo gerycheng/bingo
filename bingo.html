@@ -133,10 +133,12 @@
         .history {
             margin-top: 20px;
             text-align: left;
-            max-width: 500px;
+            max-width: 80%;
             margin-left: auto;
             margin-right: auto;
 			padding: 0 20px;
+			font-size: calc(15px + 1vw);
+            font-weight: bold;
         }
         .input-section {
             margin-top: 10px;
@@ -148,14 +150,14 @@
             top: 0;
             left: 0;
             width: 100%;
-            background-color: #eee;
+            background-color: #999;
             color: white;
             padding: 10px 0;
             text-align: center;
             z-index: 1000;
         }
         .content {
-            margin-top: 80px; 
+            margin-top: 180px; 
         }
 		.input-section button, .input-section input {
 			font-size: 24px;
@@ -218,6 +220,9 @@
 		}
 		.message-box {
 			margin-top: 20px;
+			color: #ff3333;
+			font-weight: bold;
+			font-size: 20px;
 		}
 		.md3-text-field {
 		  position: relative;
@@ -292,9 +297,9 @@
 			<button onclick="markNumber()">Check</button>
 			<div class="md3-outline"></div>
 		</div>
+		<div class="message-box" id="message-box"><p>There is no message.</p></div>
 	</div>
 	<div class="content">
-		<div class="message-box" id="message-box"></div>
 		<div class="history" id="history"></div>
 		<div class="bingo-container" id="bingo-container"></div>
 	</div>
@@ -611,11 +616,11 @@
         function updateHistory() {
             const historyDiv = document.getElementById('history');
 		if (matchHistory.length === 0) {
-			historyDiv.innerHTML = `<h2>Compare</h2><p>No numbers yet.</p>`;
+			historyDiv.innerHTML = `Compare: <span>No numbers yet.</span>`;
 		} else {
-			historyDiv.innerHTML = `<h2>Compare</h2><p>${matchHistory.join(', ')}</p>`;
+			historyDiv.innerHTML = `Compare: <span>${matchHistory.join(', ')}</span>`;
 		}
-			historyDiv.innerHTML = `<h2>Compare</h2><p>${matchHistory.join(', ')}</p>`;
+			historyDiv.innerHTML = `Compare: <span>${matchHistory.join(', ')}</span>`;
         }
 		
 		function updateMessage(msg) {
