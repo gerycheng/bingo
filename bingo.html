@@ -14,6 +14,28 @@
 	<link rel="apple-touch-icon" href="bingo-icon.png">
     <title i18nId="ATEN Bingo Card">ATEN Bingo Card Generator</title>
     <style>
+		:root {
+		  /* Material Design 3 色彩 */
+		  --md-sys-primary: #6750A4;
+		  --md-sys-on-primary: #FFFFFF;
+		  --md-sys-primary-container: #EADDFF;
+		  --md-sys-on-primary-container: #21005D;
+
+		  --md-sys-secondary-container: #F3EFFF;
+		  --md-sys-on-secondary-container: #311F75;
+
+		  --md-sys-tertiary: #7D5260;
+		  --md-sys-on-tertiary: #FFFFFF;
+
+		  --md-sys-surface: #FFFFFF;
+		  --md-sys-on-surface: #1C1B1F;
+
+		  /* Material Elevation */
+		  --md-sys-elevation1: 0 1px 3px rgba(0, 0, 0, 0.2);
+		  --md-sys-elevation2: 0 2px 6px rgba(0, 0, 0, 0.15);
+		  --md-sys-elevation3: 0 3px 8px rgba(0, 0, 0, 0.12);
+		  --md-sys-elevation4: 0 4px 10px rgba(0, 0, 0, 0.1);
+		}
         body {
             font-family: 'Roboto', sans-serif;
             text-align: center;
@@ -32,14 +54,15 @@
             grid-template-columns: repeat(5, 1fr);
             gap: 5px;
             border: 2px solid #000;
+			border-radius: 8px;
             padding: 10px;
             position: relative;
+			box-shadow: var(--md-sys-elevation1);
+			color: var(--md-sys-on-surface);
         }
-		
 		.bingo-card.three-lines {
 			background-color: #ffffe0; /* light yellow */
 		}
-
 		.bingo-card.five-lines {
 			background-color: #d0f0c0; /* light-green */
 		}
@@ -72,7 +95,26 @@
             font-size: 40px;
 			width: 56px;
             background-color: #f9f9f9;
+			font-weight: bold;
+			color: var(--md-sys-on-primary-container);
+			border-radius: 8px;
+			box-shadow: var(--md-sys-elevation2);
+			cursor: pointer;
+			transition: all 0.3s ease;
         }
+		.cell:focus {
+			outline: none;
+			box-shadow: var(--md-sys-elevation4);
+			transform: scale(1.1);
+		}
+		.cell:hover {
+			color: var(--md-sys-elevation3);
+		}
+		.cell.selected {
+			background: var(--md-sys-tertiary);
+			color: var(--md-sys-on-tertiary);
+			box-shadow: var(--md-sys-elevation3);
+		}
         .matched {
             background-color: #90ee90;
         }
@@ -381,6 +423,13 @@
                     checkLines();
                 });
 
+				cell.addEventListener('click', () => {
+					//cell.classList.toggle('selected');
+					const input = document.getElementById('input-number');
+					input.value = cell.textContent;
+					markNumber();
+				});
+
                 cell.addEventListener('dblclick', () => {
                     cell.textContent = '';
                     cell.dataset.number = '';
@@ -457,6 +506,7 @@
             const cells = document.querySelectorAll('.cell');
 			
 			let numMatched = false;
+			let countMatched = 0;
             cells.forEach(cell => {
                 if (cell.dataset.number == number) {
 					if (hisMatched){
@@ -464,7 +514,7 @@
                         cell.classList.remove('matched');
 					} else {
 						cell.classList.add('matched');
-
+						countMatched++;
 					}
 					numMatched = true;
                 }
@@ -473,8 +523,14 @@
 			updateHistory();
             if (numMatched) {
                 checkLines();
+				if (hisMatched){
+					updateMessage(`Number ${number} Remove ${countMatched} times in Cards`);
+				} else {
+					updateMessage(`Number ${number} Match ${countMatched} times in Cards`);
+				}
+				
             }else{
-				updateMessage(`Number ${number} Not Match in Card`)
+				updateMessage(`Number ${number} Not Match in Cards`)
 			}
 
             input.value = '';
@@ -524,15 +580,18 @@
                 }
 
                 const lineCount = card.querySelector('.line-count');
+				const cardHeader = card.querySelector('.card-header');
                 lineCount.textContent = `Lines: ${lines}`;
 				
 				// Update card background based on line count
 				if (lines >= 5) {
 					card.classList.add('five-lines');
 					card.classList.remove('three-lines');
+					updateMessage(`Match ${lines}`);
 				} else if (lines >= 3) {
 					card.classList.add('three-lines');
 					card.classList.remove('five-lines');
+					updateMessage(`Match ${lines}`);
 				} else {
 					card.classList.remove('three-lines', 'five-lines');
 				}
