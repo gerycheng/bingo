@@ -430,9 +430,12 @@
 
 				cell.addEventListener('click', () => {
 					//cell.classList.toggle('selected');
-					const input = document.getElementById('input-number');
-					input.value = cell.textContent;
-					markNumber();
+					const value = parseInt(cell.textContent);
+					if (!isNaN(value) && value >= 1 && value <= 70) {
+						const input = document.getElementById('input-number');
+						input.value = cell.textContent;
+						markNumber();
+					}
 				});
 
                 cell.addEventListener('dblclick', () => {
