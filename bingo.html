@@ -140,6 +140,20 @@
 			font-size: calc(15px + 1vw);
             font-weight: bold;
         }
+		.history-button {
+			padding: 10px 20px;
+			margin: 5px;
+			background-color: var(--md-sys-primary);
+			color: var(--md-sys-on-primary);
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			font-size: 18px;
+			transition: background-color 0.3s ease;
+		}
+		.history-button:hover {
+			background-color: var(--md-sys-primary-container);
+		}
         .input-section {
             margin-top: 10px;
 			position: relative;
@@ -181,7 +195,7 @@
 			background-color: #3700b3;
 		}
 		#input-number {
-			max-width: 8rem;
+			max-width: 6rem;
 		}
 		.input-section input {
 			padding-left: 40px;
@@ -230,6 +244,73 @@
 			font-weight: bold;
 			font-size: 20px;
 		}
+		
+		.floating-modal {
+			display: none; /* 默認隱藏 */
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.5);
+			z-index: 1000;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.modal-content {
+			background: var(--md-sys-surface);
+			padding: 36px 10px 10px;
+			border-radius: 4px;
+			box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+			position: relative;
+			max-width: 400px;
+			width: 90%;
+			text-align: center;
+		}
+
+		.button-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+			gap: 10px;
+		}
+
+		.bingo-button {
+			padding: 10px;
+			background-color: var(--md-sys-primary);
+			color: var(--md-sys-on-primary);
+			border: none;
+			border-radius: 4px;
+			font-size: 16px;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+
+		.bingo-button:hover {
+			background-color: var(--md-sys-primary-container);
+		}
+
+		.open-modal-button {
+			padding: 10px 20px;
+			background-color: var(--md-sys-primary);
+			color: var(--md-sys-on-primary);
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			font-size: 16px;
+		}
+
+		.close-button {
+			position: absolute;
+			top: 4px;
+			right: 7px;
+			background: none;
+			border: none;
+			font-size: 20px;
+			cursor: pointer;
+			color: var(--md-sys-on-surface);
+		}
+		
 		.md3-text-field {
 		  position: relative;
 		  margin: 16px;
@@ -288,11 +369,11 @@
 	
 </head>
 <body>
-    <h1>Bingo Card Generator</h1>
+    <h1>ATEN Bingo Card 2025</h1>
 	<div class="fixed-header">
 		<div class="input-section">
-			<button onclick="addRandomBingoCard()">+Random</button>
 			<button onclick="addCustomBingoCard()">+Custom</button>
+			<button onclick="addRandomBingoCard()">+Random</button>
 			<button onclick="sortHistory()">Sort</button>
 			<!-- <button onclick="matchHistoryNumber()">Recheck Bingo Card</button> -->
 		</div>
@@ -300,15 +381,22 @@
 			<span class="icon">🔢</span>
 			<input type="number" id="input-number" min="1" max="70" size="2" placeholder=" " required>
 			<label for="input-number">Number 1-70</label>
-			<button onclick="markNumber()">Check</button>
+			<button onclick="markNumber()">Set</button>
 			<div class="md3-outline"></div>
+			<button id="open-modal" class="open-modal-button">Set Num.</button>
 		</div>
 		<div class="message-box" id="message-box"><p>There is no message.</p></div>
-		<div class="version" id="version">ver: 202501021537</div>
+		<div class="version" id="version">ver: 202501030957</div>
 	</div>
 	<div class="content">
 		<div class="history" id="history"></div>
 		<div class="bingo-container" id="bingo-container"></div>
+	</div>
+	<div id="floating-button-modal" class="floating-modal">
+		<div class="modal-content">
+			<button id="close-modal" class="close-button">✖</button>
+			<div id="button-grid" class="button-grid"></div>
+		</div>
 	</div>
 	<script src="umd.js"></script>
     <script>
@@ -623,14 +711,48 @@
 
 		}
 		
+		function createBingoButtons() {
+			const buttonGrid = document.getElementById('button-grid');
+			buttonGrid.innerHTML = ''; // clear content
+
+			for (let i = 1; i <= 70; i++) {
+				const button = document.createElement('button');
+				button.textContent = i;
+				button.classList.add('bingo-button');
+				button.addEventListener('click', () => {
+					const input = document.getElementById('input-number');
+					input.value = i; // set number value
+					markNumber(); // Trigger functin
+					toggleModal(false);
+				});
+				buttonGrid.appendChild(button);
+			}
+		}
+
+		function toggleModal(show) {
+			const modal = document.getElementById('floating-button-modal');
+			modal.style.display = show ? 'block' : 'none';
+		}
+		
         function updateHistory() {
             const historyDiv = document.getElementById('history');
-		if (matchHistory.length === 0) {
-			historyDiv.innerHTML = `Compare: <span>No numbers yet.</span>`;
-		} else {
-			historyDiv.innerHTML = `Compare: <span>${matchHistory.join(', ')}</span>`;
-		}
-			historyDiv.innerHTML = `Compare: <span>${matchHistory.join(', ')}</span>`;
+			if (matchHistory.length === 0) {
+				historyDiv.innerHTML = `Compare(<span>${matchHistory.length}</span>): <span>No numbers yet.</span>`;
+			} else {
+				historyDiv.innerHTML = `Compare(<span>${matchHistory.length}</span>): `;
+			    matchHistory.forEach(number => {
+				const button = document.createElement('button');
+				button.textContent = number;
+				button.classList.add('history-button');
+				button.addEventListener('click', () => {
+					const input = document.getElementById('input-number');
+					input.value = number; // set number value
+					markNumber(); // trigger functin
+				});
+				historyDiv.appendChild(button);
+			});
+			}
+
         }
 		
 		function updateMessage(msg) {
@@ -641,8 +763,12 @@
 		if ('serviceWorker' in navigator) {
 			navigator.serviceWorker
 				.register('service-worker.js')
-				.then(() => console.log('Service Worker Registered'))
-				.catch((err) => console.error("Service Worker Registration Failed:", err));
+				.then((registration) => {
+					console.log('Service Worker Registered');
+				})
+				.catch((err) => {
+					console.error("Service Worker Registration Failed:", err);
+				});
 		}
 	
         // Initial Match History Data
@@ -657,6 +783,13 @@
 				document.querySelector('button[onclick="markNumber()"]').click();
 			}
 		});
+		
+		// initial button and event binding
+		document.getElementById('open-modal').addEventListener('click', () => toggleModal(true));
+		document.getElementById('close-modal').addEventListener('click', () => toggleModal(false));
+		
+		// create bingo button
+		createBingoButtons();
 	</script>
 </body>
 </html>
