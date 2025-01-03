@@ -1,4 +1,4 @@
-const CACHE_NAME  = 'aten-bingo-pwa-cache-v202501031048';
+const CACHE_NAME  = 'aten-bingo-pwa-cache-v202501031049';
 const ASSETS_TO_CACHE = [
 	'/bingo/',
 	'/bingo/bingo.html',
