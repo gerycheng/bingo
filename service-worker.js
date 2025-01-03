@@ -1,4 +1,4 @@
-const CACHE_NAME  = 'aten-bingo-pwa-cache-v1';
+const CACHE_NAME  = 'aten-bingo-pwa-cache-v202501031048';
 const ASSETS_TO_CACHE = [
 	'/bingo/',
 	'/bingo/bingo.html',
@@ -8,7 +8,7 @@ const ASSETS_TO_CACHE = [
 
 // Service Worker Install and Caching data
 self.addEventListener('install', (event) => {
-	console.log("[Service Worker] Install");
+	console.log("[Service Worker] Install...");
 	self.skipWaiting(); // force Activate
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
@@ -26,8 +26,10 @@ self.addEventListener('install', (event) => {
 
 // clean old cache
 self.addEventListener('activate', (event) => {
+	console.log('[Service Worker] Activating...');
     event.waitUntil(
         caches.keys().then((cacheNames) => {
+			console.log(cacheNames);
             return Promise.all(
                 cacheNames
                     .filter((cacheName) => cacheName !== CACHE_NAME)
@@ -53,10 +55,13 @@ self.addEventListener('fetch', (event) => {
                 return cachedResponse;
             }
             return fetch(event.request).then((networkResponse) => {
-                return caches.open(CACHE_NAME).then((cache) => {
-                    cache.put(event.request, networkResponse.clone());
-                    return networkResponse;
-                });
+				if(event.request.url.startsWith('http')){
+					return caches.open(CACHE_NAME).then((cache) => {
+						cache.put(event.request, networkResponse.clone());
+						return networkResponse;
+					});
+				}
+
             });
         })
     );
