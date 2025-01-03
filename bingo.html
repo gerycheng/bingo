@@ -671,6 +671,8 @@
 		}
 
         function checkLines() {
+		matchCard_level_3 = 0;
+		matchCard_level_5 = 0;
             const cards = document.querySelectorAll('.bingo-card');
             cards.forEach(card => {
                 const cells = card.querySelectorAll('.cell');
