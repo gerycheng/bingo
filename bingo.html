@@ -62,10 +62,26 @@
         }
 		.bingo-card.three-lines {
 			background-color: #ffffe0; /* light yellow */
+			border: 5px solid #000;
 		}
 		.bingo-card.five-lines {
 			background-color: #d0f0c0; /* light-green */
+			border: 8px solid #000;
 		}
+		.bingo-highlight {
+			background-color: #ffeb3b;
+			animation: highlight 10s ease-in-out;
+		}
+
+		@keyframes highlight {
+			from {
+				background-color: #00e082;
+			}
+			to {
+				background-color: #ffeb3b;
+			}
+		}
+		
         .remove-button {
             position: absolute;
             top: -10px;
@@ -174,7 +190,7 @@
 			position: absolute;
 			top: 0px;
 			left: 0px;
-			color: #aaa;
+			color: #ccc;
 		}
         .content {
             margin-top: 180px; 
@@ -386,7 +402,7 @@
 			<button id="open-modal" class="open-modal-button">Set Num.</button>
 		</div>
 		<div class="message-box" id="message-box"><p>There is no message.</p></div>
-		<div class="version" id="version">ver: 202501031048 / gerycheng@aten.com.tw</div>
+		<div class="version" id="version">ver: 202501031602 / gerycheng@aten.com.tw</div>
 	</div>
 	<div class="content">
 		<div class="history" id="history"></div>
@@ -466,6 +482,8 @@
         let cardCount = 0;
 		let allCardNumbers = [];
         let matchHistory = [];
+		let matchCard_level_3 = 0;
+		let matchCard_level_5 = 0;
 
         function addRandomBingoCard() {
             cardCount++;
@@ -688,15 +706,18 @@
 				
 				// Update card background based on line count
 				if (lines >= 5) {
-					card.classList.add('five-lines');
+					card.classList.add('five-lines', 'bingo-highlight');
 					card.classList.remove('three-lines');
 					updateMessage(`Match ${lines}`);
+					matchCard_level_5++;
+					matchCard_level_3--;
 				} else if (lines >= 3) {
-					card.classList.add('three-lines');
+					card.classList.add('three-lines', 'bingo-highlight');
 					card.classList.remove('five-lines');
 					updateMessage(`Match ${lines}`);
+					matchCard_level_3++;
 				} else {
-					card.classList.remove('three-lines', 'five-lines');
+					card.classList.remove('three-lines', 'five-lines', 'bingo-highlight');
 				}
             });
         }
@@ -757,7 +778,11 @@
 		
 		function updateMessage(msg) {
             const historyDiv = document.getElementById('message-box');
-			historyDiv.innerHTML = `<p>${msg}</p>`;
+			historyDiv.innerHTML = '';
+			if (matchCard_level_3 > 0 || matchCard_level_5 > 0) {
+				historyDiv.innerHTML += `<span class="bingo-highlight">Congratulations! BINGO!! </span>`;
+			}
+			historyDiv.innerHTML += `<p>${msg}</p>`;
 		}
 
 		if ('serviceWorker' in navigator) {
