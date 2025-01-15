@@ -15,26 +15,26 @@
     <title i18nId="ATEN Bingo Card">ATEN Bingo Card Generator</title>
     <style>
 		:root {
-		  /* Material Design 3 色彩 */
-		  --md-sys-primary: #6750A4;
-		  --md-sys-on-primary: #FFFFFF;
-		  --md-sys-primary-container: #EADDFF;
-		  --md-sys-on-primary-container: #21005D;
+			/* Material Design 3 Color */
+			--md-sys-primary: #6750A4;
+			--md-sys-on-primary: #FFFFFF;
+			--md-sys-primary-container: #EADDFF;
+			--md-sys-on-primary-container: #21005D;
 
-		  --md-sys-secondary-container: #F3EFFF;
-		  --md-sys-on-secondary-container: #311F75;
+			--md-sys-secondary-container: #F3EFFF;
+			--md-sys-on-secondary-container: #311F75;
 
-		  --md-sys-tertiary: #7D5260;
-		  --md-sys-on-tertiary: #FFFFFF;
+			--md-sys-tertiary: #7D5260;
+			--md-sys-on-tertiary: #FFFFFF;
 
-		  --md-sys-surface: #FFFFFF;
-		  --md-sys-on-surface: #1C1B1F;
+			--md-sys-surface: #FFFFFF;
+			--md-sys-on-surface: #1C1B1F;
 
-		  /* Material Elevation */
-		  --md-sys-elevation1: 0 1px 3px rgba(0, 0, 0, 0.2);
-		  --md-sys-elevation2: 0 2px 6px rgba(0, 0, 0, 0.15);
-		  --md-sys-elevation3: 0 3px 8px rgba(0, 0, 0, 0.12);
-		  --md-sys-elevation4: 0 4px 10px rgba(0, 0, 0, 0.1);
+			/* Material Elevation */
+			--md-sys-elevation1: 0 1px 3px rgba(0, 0, 0, 0.2);
+			--md-sys-elevation2: 0 2px 6px rgba(0, 0, 0, 0.15);
+			--md-sys-elevation3: 0 3px 8px rgba(0, 0, 0, 0.12);
+			--md-sys-elevation4: 0 4px 10px rgba(0, 0, 0, 0.1);
 		}
         body {
             font-family: 'Roboto', sans-serif;
@@ -49,17 +49,17 @@
             gap: 20px;
             margin: 20px;
         }
-        .bingo-card {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 5px;
-            border: 2px solid #000;
+		.bingo-card {
+			display: grid;
+			grid-template-columns: repeat(5, 1fr);
+			gap: 5px;
+			border: 2px solid #000;
 			border-radius: 8px;
-            padding: 10px;
-            position: relative;
+			padding: 10px;
+			position: relative;
 			box-shadow: var(--md-sys-elevation1);
 			color: var(--md-sys-on-surface);
-        }
+		}
 		.bingo-card.three-lines {
 			background-color: #ffffe0; /* light yellow */
 			border: 5px solid #000;
@@ -93,31 +93,31 @@
             cursor: pointer;
             font-size: 12px;
             width: 20px;
-            height: 20px;
-        }
-        .remove-button:hover {
-            background-color: darkred;
-        }
-        .card-header {
-            grid-column: span 5;
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .cell {
-            border: 1px solid #000;
-            padding: 4px;
-            text-align: center;
-            font-size: 40px;
+			height: 20px;
+		}
+		.remove-button:hover {
+			background-color: darkred;
+		}
+		.card-header {
+			grid-column: span 5;
+			text-align: center;
+			font-weight: bold;
+			margin-bottom: 10px;
+		}
+		.cell {
+			border: 1px solid #000;
+			padding: 4px;
+			text-align: center;
+			font-size: 40px;
 			width: 56px;
-            background-color: #f9f9f9;
+			background-color: #f9f9f9;
 			font-weight: bold;
 			color: var(--md-sys-on-primary-container);
 			border-radius: 8px;
 			box-shadow: var(--md-sys-elevation2);
 			cursor: pointer;
 			transition: all 0.3s ease;
-        }
+		}
 		.cell:focus {
 			outline: none;
 			box-shadow: var(--md-sys-elevation4);
@@ -131,31 +131,28 @@
 			color: var(--md-sys-on-tertiary);
 			box-shadow: var(--md-sys-elevation3);
 		}
-        .matched {
-            background-color: #90ee90;
-        }
-        .duplicate {
-            background-color: #ffcccb;
-        }
-        .line-count {
-            position: absolute;
-            top: 5px;
-            right: 10px;
-            background-color: #fff;
-            padding: 5px;
-            border: 1px solid #000;
-            font-size: 14px;
-        }
-        .history {
-            margin-top: 20px;
-            text-align: left;
-            max-width: 80%;
-            margin-left: auto;
-            margin-right: auto;
+		.duplicate {
+			background-color: #ffcccb;
+		}
+		.line-count {
+			position: absolute;
+			top: 5px;
+			right: 10px;
+			background-color: #fff;
+			padding: 5px;
+			border: 1px solid #000;
+			font-size: 14px;
+		}
+		.history {
+			margin-top: 20px;
+			text-align: left;
+			max-width: 80%;
+			margin-left: auto;
+			margin-right: auto;
 			padding: 0 20px;
 			font-size: calc(15px + 1vw);
-            font-weight: bold;
-        }
+			font-weight: bold;
+		}
 		.history-button {
 			padding: 10px 20px;
 			margin: 5px;
@@ -170,31 +167,37 @@
 		.history-button:hover {
 			background-color: var(--md-sys-primary-container);
 		}
-        .input-section {
-            margin-top: 10px;
+		.input-section {
+			margin-top: 10px;
 			position: relative;
 			display: inline-block;
-        }
-        .fixed-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #999;
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-            z-index: 1000;
-        }
+		}
+		.fixed-header {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			background-color: #999;
+			color: white;
+			padding: 10px 0;
+			text-align: center;
+			z-index: 1000;
+		}
 		#version {
 			position: absolute;
 			top: 0px;
 			left: 0px;
 			color: #ccc;
 		}
-        .content {
-            margin-top: 180px; 
-        }
+		#help {
+			position: absolute;
+			top: 5px;
+			right: 5px;
+			color: #ccc;
+		}
+		.content {
+			margin-top: 180px; 
+		}
 		.input-section button, .input-section input {
 			font-size: 24px;
 		}
@@ -301,9 +304,16 @@
 			cursor: pointer;
 			transition: background-color 0.3s ease;
 		}
-
 		.bingo-button:hover {
 			background-color: var(--md-sys-primary-container);
+		}
+		.bingo-button:disabled {
+			background-color: #ccc;
+			cursor: not-allowed;
+		}
+
+		.matched {
+			background-color: #90ee90;
 		}
 
 		.open-modal-button {
@@ -327,65 +337,115 @@
 			color: var(--md-sys-on-surface);
 		}
 		
+		.modal-overlay {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.5);
+			z-index: 999;
+		}
+
+		.modal {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			background: #333;
+			padding: 20px;
+			border-radius: 8px;
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+			z-index: 1000;
+			width: 400px;
+			text-align: left;
+		}
+
+		.modal h2 {
+			margin: 0 0 10px;
+			font-size: 20px;
+		}
+
+		.modal p {
+		font-size: 14px;
+		line-height: 1.5;
+		margin-bottom: 20px;
+		}
+
+		.modal button {
+			padding: 10px 20px;
+			border: none;
+			background-color: #007bff;
+			color: #fff;
+			border-radius: 5px;
+			cursor: pointer;
+			font-size: 14px;
+		}
+
+		.modal button:hover {
+			background-color: #0056b3;
+		}
+		
 		.md3-text-field {
-		  position: relative;
-		  margin: 16px;
-		  display: inline-block;
+			position: relative;
+			margin: 16px;
+			display: inline-block;
 		}
 
 		.md3-text-field input {
-		  font-size: 24px;
-		  padding: 8px 12px 8px 36px;
-		  border: 2px solid #ccc;
-		  border-radius: 4px;
-		  outline: none;
-		  transition: border-color 0.3s, box-shadow 0.3s;
-		  width: 200px;
+			font-size: 24px;
+			padding: 8px 12px 8px 36px;
+			border: 2px solid #ccc;
+			border-radius: 4px;
+			outline: none;
+			transition: border-color 0.3s, box-shadow 0.3s;
+			width: 200px;
 		}
 
 		.md3-text-field input:focus {
-		  border-color: #6200ea;
-		  box-shadow: 0 0 5px rgba(98, 0, 234, 0.5);
+			border-color: #6200ea;
+			box-shadow: 0 0 5px rgba(98, 0, 234, 0.5);
 		}
 
 		.md3-text-field label {
-		  position: absolute;
-		  top: 50%;
-		  left: 40px;
-		  transform: translateY(-50%);
-		  font-size: 16px;
-		  color: #aaa;
-		  pointer-events: none;
-		  transition: all 0.2s ease;
-		  background: white;
-		  padding: 0 4px;
+			position: absolute;
+			top: 50%;
+			left: 40px;
+			transform: translateY(-50%);
+			font-size: 16px;
+			color: #aaa;
+			pointer-events: none;
+			transition: all 0.2s ease;
+			background: white;
+			padding: 0 4px;
 		}
 
 		.md3-text-field input:focus + label,
 		.md3-text-field input:not(:placeholder-shown) + label {
-		  top: -10px;
-		  font-size: 12px;
-		  color: #6200ea;
+			top: -10px;
+			font-size: 12px;
+			color: #6200ea;
 		}
 
 		.md3-outline {
-		  position: absolute;
-		  inset: 0;
-		  border: 2px solid #ccc;
-		  border-radius: 4px;
-		  pointer-events: none;
-		  z-index: -1;
-		  transition: border-color 0.3s ease;
+			position: absolute;
+			inset: 0;
+			border: 2px solid #ccc;
+			border-radius: 4px;
+			pointer-events: none;
+			z-index: -1;
+			transition: border-color 0.3s ease;
 		}
 
 		.md3-text-field input:focus ~ .md3-outline {
-		  border-color: #6200ea;
+			border-color: #6200ea;
 		}
-    </style>
+	</style>
 	
 </head>
 <body>
-    <h1>ATEN Bingo Card 2025</h1>
+	<h1>ATEN Bingo Card 2025</h1>
 	<div class="fixed-header">
 		<div class="input-section">
 			<button onclick="addCustomBingoCard()">+Custom</button>
@@ -402,7 +462,22 @@
 			<button id="open-modal" class="open-modal-button">Set Num.</button>
 		</div>
 		<div class="message-box" id="message-box"><p>There is no message.</p></div>
-		<div class="version" id="version">ver: 202501031729 / gerycheng@aten.com.tw</div>
+		<div class="version" id="version">ver: 202501141716 / gerycheng@aten.com.tw</div>
+		<div class="help" id="help"><button id="openModalBtn" style="padding: 5px 10px; font-size: 16px;">Help</button></div>
+		<div class="modal-overlay" id="modalOverlay">
+		<!-- 彈跳視窗 -->
+		<div class="modal">
+			<h2>Manual</h2>
+			<ul>
+			<li> [+Custom] 新增空白自訂數字賓果卡</li>
+			<li> [+Random] 新增隨機生成數字賓果卡。</li>
+			<li> [Sort] 可排序已選擇的賓果號碼</li>
+			<li> [Set] 輸入寬果號碼，若已在比對號碼則取消比對</li>
+			<li> [Set Num.] 跳出所有的寬果號碼，若已在比對號碼則取消比對</li>
+			</ul>
+			<button id="closeModalBtn">關閉</button>
+		</div>
+		</div>
 	</div>
 	<div class="content">
 		<div class="history" id="history"></div>
@@ -415,131 +490,131 @@
 		</div>
 	</div>
 	<script src="umd.js"></script>
-    <script>
-        // Open IndexedDB
-        const dbPromise = idb.openDB('bingo-pwa-db', 1, {
-            upgrade(db) {
-                if (!db.objectStoreNames.contains('matchHistory')) {
-                    db.createObjectStore('matchHistory', { keyPath: 'id', autoIncrement: true });
-                }
-                if (!db.objectStoreNames.contains('allCardNumbers')) {
-                    db.createObjectStore('allCardNumbers', { keyPath: 'id', autoIncrement: true });
-                }
-            },
-        });
+	<script>
+		// Open IndexedDB
+		const dbPromise = idb.openDB('bingo-pwa-db', 1, {
+			upgrade(db) {
+				if (!db.objectStoreNames.contains('matchHistory')) {
+					db.createObjectStore('matchHistory', { keyPath: 'id', autoIncrement: true });
+				}
+				if (!db.objectStoreNames.contains('allCardNumbers')) {
+					db.createObjectStore('allCardNumbers', { keyPath: 'id', autoIncrement: true });
+				}
+			},
+		});
 
-        function saveMatchHistory() {
-            dbPromise.then((db) => {
-                const tx = db.transaction('matchHistory', 'readwrite');
-                const store = tx.objectStore('matchHistory');
-                store.put({ id: 1, data: matchHistory });
-                return tx.complete;
-            });
-        }
+		function saveMatchHistory() {
+			dbPromise.then((db) => {
+				const tx = db.transaction('matchHistory', 'readwrite');
+				const store = tx.objectStore('matchHistory');
+				store.put({ id: 1, data: matchHistory });
+				return tx.complete;
+			});
+		}
 
-        function loadMatchHistory() {
-            dbPromise.then((db) => {
-                const tx = db.transaction('matchHistory', 'readonly');
-                const store = tx.objectStore('matchHistory');
-                return store.get(1);
-            }).then((record) => {
-                if (record && record.data) {
-                    matchHistory = record.data;
-                    updateHistory();
-                    matchHistoryNumber();
-                }
-            });
-        }
+		function loadMatchHistory() {
+			dbPromise.then((db) => {
+				const tx = db.transaction('matchHistory', 'readonly');
+				const store = tx.objectStore('matchHistory');
+				return store.get(1);
+			}).then((record) => {
+				if (record && record.data) {
+					matchHistory = record.data;
+					updateHistory();
+					matchHistoryNumber();
+				}
+			});
+		}
 
-        function saveAllCardNumbers() {
+		function saveAllCardNumbers() {
 			updateAllCardNumbers();
-            dbPromise.then((db) => {
-                const tx = db.transaction('allCardNumbers', 'readwrite');
-                const store = tx.objectStore('allCardNumbers');
-                store.put({ id: 1, data: allCardNumbers });
-                return tx.complete;
-            });
-        }
+			dbPromise.then((db) => {
+				const tx = db.transaction('allCardNumbers', 'readwrite');
+				const store = tx.objectStore('allCardNumbers');
+				store.put({ id: 1, data: allCardNumbers });
+				return tx.complete;
+			});
+		}
 
-        function loadAllCardNumbers() {
-            dbPromise.then((db) => {
-                const tx = db.transaction('allCardNumbers', 'readonly');
-                const store = tx.objectStore('allCardNumbers');
-                return store.get(1);
-            }).then((record) => {
-                if (record && record.data) {
-                    allCardNumbers = record.data;
+		function loadAllCardNumbers() {
+			dbPromise.then((db) => {
+				const tx = db.transaction('allCardNumbers', 'readonly');
+				const store = tx.objectStore('allCardNumbers');
+				return store.get(1);
+			}).then((record) => {
+				if (record && record.data) {
+					allCardNumbers = record.data;
 					allCardNumbers.forEach(cardNumber => {
 						cardCount++;
 						const card = createBingoCard(cardCount, cardNumber);
 						document.getElementById('bingo-container').appendChild(card);
 					});
-                    matchHistoryNumber();
-                }
-            });
-        }
+					matchHistoryNumber();
+				}
+			});
+		}
 		
-        let cardCount = 0;
+		let cardCount = 0;
 		let allCardNumbers = [];
-        let matchHistory = [];
+		let matchHistory = [];
 		let matchCard_level_3 = 0;
 		let matchCard_level_5 = 0;
 
-        function addRandomBingoCard() {
-            cardCount++;
-            const card = createBingoCard(cardCount, generateUniqueNumbers(25, 1, 70));
-            document.getElementById('bingo-container').appendChild(card);
+		function addRandomBingoCard() {
+			cardCount++;
+			const card = createBingoCard(cardCount, generateUniqueNumbers(25, 1, 70));
+			document.getElementById('bingo-container').appendChild(card);
 			matchHistoryNumber();
 			saveAllCardNumbers();
-        }
+		}
 
-        function addCustomBingoCard() {
-            cardCount++;
-            const card = createBingoCard(cardCount);
-            document.getElementById('bingo-container').appendChild(card);
+		function addCustomBingoCard() {
+			cardCount++;
+			const card = createBingoCard(cardCount);
+			document.getElementById('bingo-container').appendChild(card);
 			matchHistoryNumber();
 			saveAllCardNumbers();
-        }
+		}
 
-        function createBingoCard(cardNumber, numbers = []) {
-            const card = document.createElement('div');
-            card.classList.add('bingo-card');
+		function createBingoCard(cardNumber, numbers = []) {
+			const card = document.createElement('div');
+			card.classList.add('bingo-card');
 
-            const removeButton = document.createElement('button');
-            removeButton.classList.add('remove-button');
-            removeButton.textContent = 'X';
-            removeButton.onclick = () => removeCard(card);
-            card.appendChild(removeButton);
+			const removeButton = document.createElement('button');
+			removeButton.classList.add('remove-button');
+			removeButton.textContent = 'X';
+			removeButton.onclick = () => removeCard(card);
+			card.appendChild(removeButton);
 
-            const header = document.createElement('div');
-            header.classList.add('card-header');
-            header.textContent = `Card #${cardNumber}`;
-            card.appendChild(header);
+			const header = document.createElement('div');
+			header.classList.add('card-header');
+			header.textContent = `Card #${cardNumber}`;
+			card.appendChild(header);
 
-            for (let i = 0; i < 25; i++) {
-                const cell = document.createElement('div');
-                cell.classList.add('cell');
-                cell.contentEditable = true;
-                if (numbers[i]) {
-                    cell.textContent = numbers[i];
-                    cell.dataset.number = numbers[i];
-                }
+			for (let i = 0; i < 25; i++) {
+				const cell = document.createElement('div');
+				cell.classList.add('cell');
+				cell.contentEditable = true;
+				if (numbers[i]) {
+					cell.textContent = numbers[i];
+					cell.dataset.number = numbers[i];
+				}
 				
-                cell.addEventListener('input', (event) => {
-                    const value = parseInt(cell.textContent);
-                    if (!isNaN(value) && value >= 1 && value <= 70) {
-                        cell.dataset.number = value;
-                        validateDuplicates(card);
-                    } else {
-                        cell.dataset.number = '';
-                        cell.textContent = ''; // Clear invalid input
-                        validateDuplicates(card);
-                    }
+				cell.addEventListener('input', (event) => {
+					const value = parseInt(cell.textContent);
+					if (!isNaN(value) && value >= 1 && value <= 70) {
+						cell.dataset.number = value;
+						validateDuplicates(card);
+					} else {
+						cell.dataset.number = '';
+						cell.textContent = ''; // Clear invalid input
+						validateDuplicates(card);
+					}
 
-                    // Re-check bingo and lines whenever the card changes
+					// Re-check bingo and lines whenever the card changes
 					saveAllCardNumbers();
-                    checkLines();
-                });
+					checkLines();
+				});
 
 				cell.addEventListener('click', () => {
 					//cell.classList.toggle('selected');
@@ -551,53 +626,53 @@
 					}
 				});
 
-                cell.addEventListener('dblclick', () => {
-                    cell.textContent = '';
-                    cell.dataset.number = '';
-                    cell.classList.remove('matched');
-                    validateDuplicates(card);
+				cell.addEventListener('dblclick', () => {
+					cell.textContent = '';
+					cell.dataset.number = '';
+					cell.classList.remove('matched');
+					validateDuplicates(card);
 					saveAllCardNumbers();
-                    checkLines();
-                });
-                card.appendChild(cell);
-            }
+					checkLines();
+				});
+				card.appendChild(cell);
+			}
 
-            const lineCount = document.createElement('div');
-            lineCount.classList.add('line-count');
-            lineCount.textContent = 'Lines: 0';
-            card.appendChild(lineCount);
+			const lineCount = document.createElement('div');
+			lineCount.classList.add('line-count');
+			lineCount.textContent = 'Lines: 0';
+			card.appendChild(lineCount);
 
-            return card;
-        }
+			return card;
+		}
 
-        function generateUniqueNumbers(count, min, max) {
-            const numbers = new Set();
-            while (numbers.size < count) {
-                numbers.add(Math.floor(Math.random() * (max - min + 1)) + min);
-            }
-            return Array.from(numbers);
-        }
+		function generateUniqueNumbers(count, min, max) {
+			const numbers = new Set();
+			while (numbers.size < count) {
+				numbers.add(Math.floor(Math.random() * (max - min + 1)) + min);
+			}
+			return Array.from(numbers);
+		}
 
-        function removeCard(card) {
-            card.remove();
+		function removeCard(card) {
+			card.remove();
 			saveAllCardNumbers();
-        }
+		}
 
-        function validateDuplicates(card) {
-            const cells = card.querySelectorAll('.cell');
-            const seenNumbers = new Set();
+		function validateDuplicates(card) {
+			const cells = card.querySelectorAll('.cell');
+			const seenNumbers = new Set();
 
-            cells.forEach(cell => cell.classList.remove('duplicate'));
+			cells.forEach(cell => cell.classList.remove('duplicate'));
 
-            cells.forEach(cell => {
-                const number = cell.dataset.number;
-                if (number && seenNumbers.has(number)) {
-                    cell.classList.add('duplicate');
-                } else if (number) {
-                    seenNumbers.add(number);
-                }
-            });
-        }
+			cells.forEach(cell => {
+				const number = cell.dataset.number;
+				if (number && seenNumbers.has(number)) {
+					cell.classList.add('duplicate');
+				} else if (number) {
+					seenNumbers.add(number);
+				}
+			});
+		}
 
 		function sortHistory() {
 			matchHistory.sort((a, b) => a - b); // sort small to big
@@ -605,15 +680,15 @@
 			saveMatchHistory();
 		}
 
-        function markNumber() {
-            const input = document.getElementById('input-number');
-            const number = parseInt(input.value);
+		function markNumber() {
+			const input = document.getElementById('input-number');
+			const number = parseInt(input.value);
 			updateMessage("");
 
-            if (isNaN(number) || number < 1 || number > 70) {
-                alert('Please enter a valid number between 1 and 70.');
-                return;
-            }
+			if (isNaN(number) || number < 1 || number > 70) {
+				alert('Please enter a valid number between 1 and 70.');
+				return;
+			}
 
 			let hisMatched = false;
 			if (matchHistory.includes(number)) {
@@ -624,38 +699,38 @@
 			}
 			saveMatchHistory(); // save update
 			
-            const cells = document.querySelectorAll('.cell');
+			const cells = document.querySelectorAll('.cell');
 			
 			let numMatched = false;
 			let countMatched = 0;
-            cells.forEach(cell => {
-                if (cell.dataset.number == number) {
+			cells.forEach(cell => {
+				if (cell.dataset.number == number) {
 					if (hisMatched){
 					// Remove the mark if it's a duplicate
-                        cell.classList.remove('matched');
+						cell.classList.remove('matched');
 					} else {
 						cell.classList.add('matched');
 						countMatched++;
 					}
 					numMatched = true;
-                }
-            });
+				}
+			});
 
 			updateHistory();
-            if (numMatched) {
-                checkLines();
+			if (numMatched) {
+				checkLines();
 				if (hisMatched){
 					updateMessage(`Number ${number} Remove ${countMatched} times in Cards`);
 				} else {
 					updateMessage(`Number ${number} Match ${countMatched} times in Cards`);
 				}
 				
-            }else{
+			}else{
 				updateMessage(`Number ${number} Not Match in Cards`)
 			}
 
-            input.value = '';
-        }
+			input.value = '';
+		}
 
 		function matchHistoryNumber() {
 			const cells = document.querySelectorAll('.cell');
@@ -670,41 +745,41 @@
 			checkLines();
 		}
 
-        function checkLines() {
-		matchCard_level_3 = 0;
-		matchCard_level_5 = 0;
-            const cards = document.querySelectorAll('.bingo-card');
-            cards.forEach(card => {
-                const cells = card.querySelectorAll('.cell');
-                const grid = Array.from(cells).map(cell => cell.classList.contains('matched'));
+		function checkLines() {
+			matchCard_level_3 = 0;
+			matchCard_level_5 = 0;
+			const cards = document.querySelectorAll('.bingo-card');
+			cards.forEach(card => {
+				const cells = card.querySelectorAll('.cell');
+				const grid = Array.from(cells).map(cell => cell.classList.contains('matched'));
 
-                let lines = 0;
+				let lines = 0;
 
-                // Check rows
-                for (let i = 0; i < 5; i++) {
-                    if (grid.slice(i * 5, i * 5 + 5).every(matched => matched)) {
-                        lines++;
-                    }
-                }
+				// Check rows
+				for (let i = 0; i < 5; i++) {
+					if (grid.slice(i * 5, i * 5 + 5).every(matched => matched)) {
+						lines++;
+					}
+				}
 
-                // Check columns
-                for (let i = 0; i < 5; i++) {
-                    if ([0, 1, 2, 3, 4].every(j => grid[i + j * 5])) {
-                        lines++;
-                    }
-                }
+				// Check columns
+				for (let i = 0; i < 5; i++) {
+					if ([0, 1, 2, 3, 4].every(j => grid[i + j * 5])) {
+						lines++;
+					}
+				}
 
-                // Check diagonals
-                if ([0, 6, 12, 18, 24].every(i => grid[i])) {
-                    lines++;
-                }
-                if ([4, 8, 12, 16, 20].every(i => grid[i])) {
-                    lines++;
-                }
+				// Check diagonals
+				if ([0, 6, 12, 18, 24].every(i => grid[i])) {
+					lines++;
+				}
+				if ([4, 8, 12, 16, 20].every(i => grid[i])) {
+					lines++;
+				}
 
-                const lineCount = card.querySelector('.line-count');
+				const lineCount = card.querySelector('.line-count');
 				const cardHeader = card.querySelector('.card-header');
-                lineCount.textContent = `Lines: ${lines}`;
+				lineCount.textContent = `Lines: ${lines}`;
 				
 				// Update card background based on line count
 				if (lines >= 5) {
@@ -720,8 +795,8 @@
 					card.classList.remove('three-lines', 'five-lines', 'bingo-highlight');
 				}
 				updateMessage("");
-            });
-        }
+			});
+		}
 		
 		function updateAllCardNumbers() {
 			const bingoCards = document.querySelectorAll('.bingo-card');
@@ -740,6 +815,7 @@
 			for (let i = 1; i <= 70; i++) {
 				const button = document.createElement('button');
 				button.textContent = i;
+				button.id = `btn-${i}`;
 				button.classList.add('bingo-button');
 				button.addEventListener('click', () => {
 					const input = document.getElementById('input-number');
@@ -750,35 +826,49 @@
 				buttonGrid.appendChild(button);
 			}
 		}
+		
+
 
 		function toggleModal(show) {
 			const modal = document.getElementById('floating-button-modal');
 			modal.style.display = show ? 'block' : 'none';
 		}
 		
-        function updateHistory() {
-            const historyDiv = document.getElementById('history');
+		function updateHistory() {
+			const historyDiv = document.getElementById('history');
 			if (matchHistory.length === 0) {
 				historyDiv.innerHTML = `Compare(<span>${matchHistory.length}</span>): <span>No numbers yet.</span>`;
 			} else {
 				historyDiv.innerHTML = `Compare(<span>${matchHistory.length}</span>): `;
-			    matchHistory.forEach(number => {
-				const button = document.createElement('button');
-				button.textContent = number;
-				button.classList.add('history-button');
-				button.addEventListener('click', () => {
-					const input = document.getElementById('input-number');
-					input.value = number; // set number value
-					markNumber(); // trigger functin
-				});
+				matchHistory.forEach(number => {
+					const button = document.createElement('button');
+					// const btnToggle = document.getElementById(`btn-${number}`);
+					// btnToggle.disabled = true;
+					button.textContent = number;
+					button.classList.add('history-button');
+					button.addEventListener('click', () => {
+						const input = document.getElementById('input-number');
+						input.value = number; // set number value
+						markNumber(); // trigger functin
+					});
 				historyDiv.appendChild(button);
-			});
+				});
 			}
 
-        }
+			const bingobuttons = document.querySelectorAll("#button-grid .bingo-button");
+			bingobuttons.forEach(button => {
+				if (matchHistory.includes(parseInt(button.textContent))) {
+					button.classList.add('matched');
+					// button.disabled = true;
+				} else {
+					button.classList.remove('matched');
+					//button.disabled = false;
+				}
+			});
+		}
 		
 		function updateMessage(msg) {
-            const historyDiv = document.getElementById('message-box');
+			const historyDiv = document.getElementById('message-box');
 			historyDiv.innerHTML = '';
 			if (matchCard_level_3 > 0 || matchCard_level_5 > 0) {
 				historyDiv.innerHTML += `<span class="bingo-highlight">Congratulations! BINGO!! </span>`;
@@ -797,11 +887,11 @@
 				});
 		}
 	
-        // Initial Match History Data
-        window.onload = () => {
+		// Initial Match History Data
+		window.onload = () => {
 			loadAllCardNumbers();
-            loadMatchHistory();
-        };
+			loadMatchHistory();
+		};
 		
 		// trigger Enter key
 		document.getElementById('input-number').addEventListener('keydown', function (event) {
@@ -816,6 +906,23 @@
 		
 		// create bingo button
 		createBingoButtons();
+
+		const openModalBtn = document.getElementById('openModalBtn');
+		const closeModalBtn = document.getElementById('closeModalBtn');
+		const modalOverlay = document.getElementById('modalOverlay');
+
+		// help button
+		openModalBtn.addEventListener('click', () => {
+			modalOverlay.style.display = 'block';
+		});
+		closeModalBtn.addEventListener('click', () => {
+			modalOverlay.style.display = 'none';
+		});
+		modalOverlay.addEventListener('click', (event) => {
+			if (event.target === modalOverlay) {
+				modalOverlay.style.display = 'none';
+			}
+		});
 	</script>
 </body>
 </html>
